@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>S-DES</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>S-DES</h1>
+
+    <form action="/encrypt" method="post">
+        plaintext: <input type="text" name="plaintext"><br>
+        10bit key: <input type="text" name="key"><br>
+        <input type="submit" value="encrypt">
+    </form>
+
+    <form action="/decrypt" method="post">
+        ciphertext: <input type="text" name="ciphertext"><br>
+        10bit key: <input type="text" name="key"><br>
+        <input type="submit" value="decrypt">
+    </form>
+
+    <form action="/ascii_encrypt" method="post">
+        ascii_plaintext: <input type="text" name="ascii_plaintext"><br>
+        10bit key: <input type="text" name="key"><br>
+        <input type="submit" value="ascii_encrypt">
+    </form>
+
+{#    <form action="/ascii_decrypt" method="post">#}
+{#        ascii_ciphertext: <input type="text" name="ascii_ciphertext"><br>#}
+{#        10bit key: <input type="text" name="key"><br>#}
+{#        <input type="submit" value="ascii_decrypt">#}
+{#    </form>#}
+
+    <form action="/crack" method="post">
+        <div id="inputFields">
+            <div class="inputField">
+                plaintext: <input type="text" name="plaintext[]"><br>
+                ciphertext: <input type="text" name="ciphertext[]"><br>
+            </div>
+        </div>
+        <input type="button" value="add more" onclick="addFields()">
+        <input type="submit" value="crack">
+    </form>
+
+    <form action="/bruteforce" method="post">
+        <div id="inputFields">
+            <div class="inputField">
+                plaintext: <input type="text" name="plaintext[]"><br>
+                ciphertext: <input type="text" name="ciphertext[]"><br>
+            </div>
+        </div>
+        <input type="button" value="add more" onclick="addFields()">
+        <input type="submit" value="crack">
+    </form>
+
+    <script>
+    function addFields(){
+        var container = document.getElementById("inputFields");
+        var div = document.createElement("div");
+        div.classList.add("inputField");
+        div.innerHTML = '<label for="plaintext">plaintext:</label> <input type="text" name="plaintext[]"><br> ' +
+            '<label for="ciphertext">ciphertext:</label> <input type="text" name="ciphertext[]"><br>';
+        container.appendChild(div);
+    }
+    </script>
+
+
+    {% if ciphertext %}
+        <p>ciphertext: {{ ciphertext }}</p>
+    {% endif %}
+
+    {% if plaintext %}
+        <p>plaintext: {{ plaintext }}</p>
+    {% endif %}
+
+    {% if cipher_ascii_plaintext %}
+        <p>cipher_ascii_plaintext: {{ cipher_ascii_plaintext }}</p>
+    {% endif %}
+
+    {% if plain_ascii_ciphertext %}
+        <p>plain_ascii_ciphertext: {{ plain_ascii_ciphertext }}</p>
+    {% endif %}
+
+    {% if bruteforce_result and time %}
+        <p class="result">{{ bruteforce_result, time }}</p>
+    {% endif %}
+
+</body>
+</html>
